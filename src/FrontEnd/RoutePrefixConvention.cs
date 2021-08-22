@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Castle.Core.Internal;
 
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Routing;
 
-namespace Nfl.Rushing
+namespace Nfl.Rushing.FrontEnd.WebApi
 {
     public class RoutePrefixConvention : IApplicationModelConvention
     {

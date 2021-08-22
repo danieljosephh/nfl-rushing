@@ -4,7 +4,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Nfl.Rushing.Controllers
+namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]

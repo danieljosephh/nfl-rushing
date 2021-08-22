@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Nfl.Rushing
+namespace Nfl.Rushing.FrontEnd.WebApi
 {
     public class Program
     {

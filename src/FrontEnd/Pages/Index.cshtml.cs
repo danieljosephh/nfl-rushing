@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace Nfl.Rushing.Pages
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+
+namespace Nfl.Rushing.FrontEnd.WebApi.Pages
 {
     public class IndexModel : PageModel
     {
@@ -14,7 +13,7 @@ namespace Nfl.Rushing.Pages
 
         public IndexModel(ILogger<IndexModel> logger)
         {
-            _logger = logger;
+            this._logger = logger;
         }
 
         public void OnGet()

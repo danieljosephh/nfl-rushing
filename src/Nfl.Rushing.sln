@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nfl.Rushing", "Nfl.Rushing\Nfl.Rushing.csproj", "{74CE3DA9-D40E-404F-B1CB-36D4952ED34F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nfl.Rushing.FrontEnd.WebApi", "..\src\FrontEnd\Nfl.Rushing.FrontEnd.WebApi.csproj", "{74CE3DA9-D40E-404F-B1CB-36D4952ED34F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C55803BF-037C-48F8-A4D6-931CB535D003}"
+	ProjectSection(SolutionItems) = preProject
+		..\src\Class1.cs = ..\src\Class1.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{BFC68F9F-81CF-4FDE-9A5A-3859AF35EAE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +25,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{74CE3DA9-D40E-404F-B1CB-36D4952ED34F} = {BFC68F9F-81CF-4FDE-9A5A-3859AF35EAE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FECF45C2-6501-455A-9D33-BD158908EAA0}

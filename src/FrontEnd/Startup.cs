@@ -4,13 +4,12 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Nfl.Rushing
+namespace Nfl.Rushing.FrontEnd.WebApi
 {
     public class Startup
     {
@@ -46,7 +45,7 @@ namespace Nfl.Rushing
                 app.UseHsts();
             }
 
-            app.UsePathBase(new PathString("/admin-core"));
+            //app.UsePathBase(new PathString("/admin-core"));
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
