@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net.Http;
 
 using Microsoft.AspNetCore.Mvc;
+
+using Nfl.Rushing.FrontEnd.Infrastructure;
 
 namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
 {
@@ -12,18 +13,19 @@ namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
     [ApiController]
     public class PlayersController : Controller
     {
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        private readonly IRushingPlayersRepository _rushingPlayersRepository;
+
+        public PlayersController(IRushingPlayersRepository rushingPlayersRepository)
         {
-            // conve
-            var httpClient = new HttpClient();
+            this._rushingPlayersRepository = rushingPlayersRepository;
+        }
 
-            var response = await httpClient.GetAsync(
-                "https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json");
-
-            var stats = await response.Content.ReadAsStringAsync();
-
-            return this.Ok(stats);
+        [HttpGet]
+        public Task<IActionResult> GetAll()
+        {
+            return this._rushingPlayersRepository.GetAll()
+                .ToAsync()
+                .Match(x => (IActionResult)this.Ok(x), left => throw new Exception(left));
         }
     }
 }
