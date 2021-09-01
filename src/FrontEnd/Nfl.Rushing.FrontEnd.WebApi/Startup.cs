@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Nfl.Rushing.FrontEnd.Infrastructure;
+
 namespace Nfl.Rushing.FrontEnd.WebApi
 {
     public class Startup
@@ -28,6 +30,8 @@ namespace Nfl.Rushing.FrontEnd.WebApi
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddRazorPages();
             services.AddRouting();
+
+            services.AddTransient<IRushingPlayersRepository>(_ => new RushingPlayersRepository());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

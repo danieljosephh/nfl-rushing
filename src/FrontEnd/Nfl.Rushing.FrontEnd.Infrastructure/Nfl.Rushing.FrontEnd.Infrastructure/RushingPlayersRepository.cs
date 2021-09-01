@@ -6,20 +6,29 @@ using System.Threading.Tasks;
 
 using LanguageExt;
 
+using Newtonsoft.Json;
+
 namespace Nfl.Rushing.FrontEnd.Infrastructure
 {
     public class RushingPlayersRepository : IRushingPlayersRepository
     {
-        public async Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll()
+        public Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll()
         {
-            var httpClient = new HttpClient();
+            return Prelude.TryAsync(
+                    async () =>
+                    {
+                        using (var httpClient = new HttpClient())
+                        {
+                            var response = await httpClient.GetAsync(
+                                "https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json");
 
-            var response = await httpClient.GetAsync(
-                "https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json");
-
-            var stats = await response.Content.ReadAsStringAsync();
-
-            throw new Exception();
+                            var stats = await response.Content.ReadAsStringAsync();
+                            var res = JsonConvert.DeserializeObject<IEnumerable<RushingPlayerDto>>(stats);
+                            return res;
+                        }
+                    })
+                .ToEither(error => error.ToString())
+                .ToEither();
         }
     }
 }

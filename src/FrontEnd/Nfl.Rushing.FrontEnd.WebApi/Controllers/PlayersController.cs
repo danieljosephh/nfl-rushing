@@ -11,7 +11,7 @@ namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class PlayersController : Controller
+    public class PlayersController : ControllerBase
     {
         private readonly IRushingPlayersRepository _rushingPlayersRepository;
 
@@ -25,7 +25,7 @@ namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
         {
             return this._rushingPlayersRepository.GetAll()
                 .ToAsync()
-                .Match(x => (IActionResult)this.Ok(x), left => throw new Exception(left));
+                .Match(x => (IActionResult)this.Ok(x), left => this.StatusCode(500, left));
         }
     }
 }
