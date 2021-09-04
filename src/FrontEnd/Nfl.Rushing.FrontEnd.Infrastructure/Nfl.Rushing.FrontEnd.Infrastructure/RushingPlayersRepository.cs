@@ -22,9 +22,11 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
                             var response = await httpClient.GetAsync(
                                 "https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json");
 
-                            var stats = await response.Content.ReadAsStringAsync();
-                            var res = JsonConvert.DeserializeObject<IEnumerable<RushingPlayerDto>>(stats);
-                            return res;
+                            var responseString = await response.Content.ReadAsStringAsync();
+                            var rushingPlayers = JsonConvert.DeserializeObject<IEnumerable<RushingPlayerDto>>(
+                                responseString,
+                                new RushingPlayerJsonConverter());
+                            return rushingPlayers;
                         }
                     })
                 .ToEither(error => error.ToString())
