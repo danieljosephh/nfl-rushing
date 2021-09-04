@@ -21,9 +21,11 @@ namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
         }
 
         [HttpGet]
-        public Task<IActionResult> GetAll()
+        public Task<IActionResult> GetAll(
+            [FromQuery] string sortField = null,
+            [FromQuery] SortOrder sortOrder = SortOrder.Ascending)
         {
-            return this._rushingPlayersRepository.GetAll()
+            return this._rushingPlayersRepository.GetAll(sortField, sortOrder)
                 .ToAsync()
                 .Match(x => (IActionResult)this.Ok(x), left => this.StatusCode(500, left));
         }

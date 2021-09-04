@@ -12,7 +12,9 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
 {
     public class RushingPlayersRepository : IRushingPlayersRepository
     {
-        public Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll()
+        public Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll(
+            string sortField,
+            SortOrder sortOrder = SortOrder.Ascending)
         {
             return Prelude.TryAsync(
                     async () =>
@@ -30,6 +32,7 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
                         }
                     })
                 .ToEither(error => error.ToString())
+                .Map(rushingPlayers => RushingPlayerSorter.Sort(rushingPlayers, sortField, sortOrder))
                 .ToEither();
         }
     }
