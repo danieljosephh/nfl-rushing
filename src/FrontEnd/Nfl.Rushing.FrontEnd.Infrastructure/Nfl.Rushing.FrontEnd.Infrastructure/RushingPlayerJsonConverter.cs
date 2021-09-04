@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using LanguageExt;
 
@@ -35,11 +33,13 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
             playerDto.Position = token.Value<string>("Pos");
             playerDto.Attempts = token.Value<int>("Att");
             playerDto.AttemptsPerGame = token.Value<int>("Att/G");
-            playerDto.Yards = token.Value<string>("Yds")?.Replace(",", string.Empty).Apply(Convert.ToInt32) ?? default(int);
+            playerDto.Yards = token.Value<string>("Yds")?.Replace(",", string.Empty).Apply(Convert.ToInt32) ??
+                              default(int);
             playerDto.YardsPerAttempt = token.Value<float>("Avg");
             playerDto.YardsPerGame = token.Value<float>("Yds/G");
             playerDto.Touchdowns = token.Value<int>("TD");
-            playerDto.LongestRush = token.Value<string>("Lng")?.Replace("T", string.Empty).Apply(Convert.ToInt32) ?? default(int);
+            playerDto.LongestRush = token.Value<string>("Lng")?.Replace("T", string.Empty).Apply(Convert.ToInt32) ??
+                                    default(int);
             playerDto.WasLongestRushATouchdown = token.Value<string>("Lng")?.Contains("T") ?? default(bool);
             playerDto.FirstDowns = token.Value<int>("1st");
             playerDto.FirstDownsPercentage = token.Value<float>("1st%");
