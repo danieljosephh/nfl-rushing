@@ -6,44 +6,29 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
 {
     public static class RushingPlayerSorter
     {
-        private static readonly Lazy<HashSet<string>> RushingPlayerDtoProperties = new(
-            () => typeof(RushingPlayerDto).GetProperties()
+        private static readonly Dictionary<string, Func<RushingPlayerDto, object>> PredicateDictionary =
+            typeof(RushingPlayerDto).GetProperties()
                 .Select(x => x.Name)
-                .ToHashSet(StringComparer.InvariantCultureIgnoreCase));
-
-        private static readonly Dictionary<string, Func<RushingPlayerDto, object>> SortFieldDictionary = new(StringComparer.InvariantCultureIgnoreCase)
-        {
-            { nameof(RushingPlayerDto.Name), x => x.Name },
-            { nameof(RushingPlayerDto.Team), x => x.Team },
-            { nameof(RushingPlayerDto.Position), x => x.Position },
-            { nameof(RushingPlayerDto.Attempts), x => x.Attempts },
-            { nameof(RushingPlayerDto.AttemptsPerGame), x => x.AttemptsPerGame },
-            { nameof(RushingPlayerDto.Yards), x => x.Yards },
-            { nameof(RushingPlayerDto.YardsPerAttempt), x => x.YardsPerAttempt },
-            { nameof(RushingPlayerDto.YardsPerGame), x => x.YardsPerGame },
-            { nameof(RushingPlayerDto.Touchdowns), x => x.Touchdowns },
-            { nameof(RushingPlayerDto.LongestRush), x => x.LongestRush },
-            { nameof(RushingPlayerDto.WasLongestRushATouchdown), x => x.WasLongestRushATouchdown },
-            { nameof(RushingPlayerDto.FirstDowns), x => x.FirstDowns },
-            { nameof(RushingPlayerDto.FirstDownsPercentage), x => x.FirstDownsPercentage },
-            { nameof(RushingPlayerDto.TwentyPlus), x => x.TwentyPlus },
-            { nameof(RushingPlayerDto.FortyPlus), x => x.FortyPlus },
-            { nameof(RushingPlayerDto.Fumbles), x => x.Fumbles }
-        };
+                .ToDictionary(x => x, GetRushingPlayerDtoPropertyValue, StringComparer.InvariantCultureIgnoreCase);
 
         public static IEnumerable<RushingPlayerDto> Sort(
             IEnumerable<RushingPlayerDto> players,
             string sortField,
             SortOrder sortOrder)
         {
-            if (!RushingPlayerDtoProperties.Value.Contains(sortField))
+            if (PredicateDictionary.ContainsKey(sortField))
             {
-                return players;
+                return sortOrder == SortOrder.Ascending
+                    ? players.OrderBy(PredicateDictionary[sortField])
+                    : players.OrderByDescending(PredicateDictionary[sortField]);
             }
 
-            return sortOrder == SortOrder.Ascending
-                ? players.OrderBy(SortFieldDictionary[sortField])
-                : players.OrderByDescending(SortFieldDictionary[sortField]);
+            return players;
+        }
+
+        private static Func<RushingPlayerDto, object> GetRushingPlayerDtoPropertyValue(string propertyName)
+        {
+            return x => typeof(RushingPlayerDto).GetProperty(propertyName)?.GetValue(x);
         }
     }
 }
