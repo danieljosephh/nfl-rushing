@@ -14,7 +14,8 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
     {
         public Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll(
             string sortField,
-            SortOrder sortOrder)
+            SortOrder sortOrder,
+            IEnumerable<string> nameFilters)
         {
             return Prelude.TryAsync(
                     async () =>
@@ -24,14 +25,15 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
                             var response = await httpClient.GetAsync(
                                 "https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json");
 
-                            var responseString = await response.Content.ReadAsStringAsync();
+                            var responseContent = await response.Content.ReadAsStringAsync();
                             var rushingPlayers = JsonConvert.DeserializeObject<IEnumerable<RushingPlayerDto>>(
-                                responseString,
+                                responseContent,
                                 new RushingPlayerJsonConverter());
                             return rushingPlayers;
                         }
                     })
                 .ToEither(error => error.ToString())
+                .Map(rushingPlayers => RushingPlayerFilter.FilterByName(rushingPlayers, nameFilters))
                 .Map(rushingPlayers => RushingPlayerSorter.Sort(rushingPlayers, sortField, sortOrder))
                 .ToEither();
         }

@@ -11,6 +11,7 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
     {
         Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll(
             string sortField,
-            SortOrder sortOrder);
+            SortOrder sortOrder,
+            IEnumerable<string> nameFilters);
     }
 }
