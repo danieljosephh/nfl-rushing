@@ -14,7 +14,7 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
     {
         public Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll(
             string sortField,
-            SortOrder sortOrder = SortOrder.Ascending)
+            SortOrder sortOrder)
         {
             return Prelude.TryAsync(
                     async () =>
