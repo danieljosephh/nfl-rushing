@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Nfl.Rushing.FrontEnd.Infrastructure;
+using Nfl.Rushing.FrontEnd.Infrastructure.Players;
 
 namespace Nfl.Rushing.FrontEnd.WebApi
 {
@@ -33,7 +33,7 @@ namespace Nfl.Rushing.FrontEnd.WebApi
 
             services.AddSwaggerGen();
 
-            services.AddTransient<IRushingPlayersRepository>(_ => new RushingPlayersRepository());
+            services.AddTransient<IPlayersRepository>(_ => new PlayersRepository());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

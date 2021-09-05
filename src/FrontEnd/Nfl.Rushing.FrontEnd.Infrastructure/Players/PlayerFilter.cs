@@ -4,12 +4,12 @@ using System.Linq;
 
 using Castle.Core.Internal;
 
-namespace Nfl.Rushing.FrontEnd.Infrastructure
+namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
-    public static class RushingPlayerFilter
+    public static class PlayerFilter
     {
-        public static IEnumerable<RushingPlayerDto> FilterByName(
-            IEnumerable<RushingPlayerDto> players,
+        public static IEnumerable<PlayerDto> FilterByName(
+            IEnumerable<PlayerDto> players,
             IEnumerable<string> filterValues)
         {
             var filterValuesArray = filterValues as string[] ?? filterValues.ToArray();

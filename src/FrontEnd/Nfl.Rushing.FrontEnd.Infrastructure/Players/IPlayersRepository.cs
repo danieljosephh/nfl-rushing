@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 using LanguageExt;
 
-namespace Nfl.Rushing.FrontEnd.Infrastructure
+namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
-    public interface IRushingPlayersRepository
+    public interface IPlayersRepository
     {
-        Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll(
+        Task<Either<string, IEnumerable<PlayerDto>>> GetAll(
             string sortField,
             SortOrder sortOrder,
             IEnumerable<string> nameFilters);

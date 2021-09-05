@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Nfl.Rushing.FrontEnd.Infrastructure;
+using Nfl.Rushing.FrontEnd.Infrastructure.Players;
 
 namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
 {
@@ -13,20 +13,20 @@ namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
     [ApiController]
     public class PlayersController : ControllerBase
     {
-        private readonly IRushingPlayersRepository _rushingPlayersRepository;
+        private readonly IPlayersRepository _playersRepository;
 
-        public PlayersController(IRushingPlayersRepository rushingPlayersRepository)
+        public PlayersController(IPlayersRepository playersRepository)
         {
-            this._rushingPlayersRepository = rushingPlayersRepository;
+            this._playersRepository = playersRepository;
         }
 
         [HttpGet]
         public Task<IActionResult> GetAll(
-            [FromQuery] string sortField = null,
-            [FromQuery] SortOrder sortOrder = SortOrder.Ascending,
-            [FromQuery] IEnumerable<string> nameFilters = null)
+            [FromQuery] string sortField,
+            [FromQuery] SortOrder sortOrder,
+            [FromQuery] IEnumerable<string> nameFilters)
         {
-            return this._rushingPlayersRepository.GetAll(sortField ?? string.Empty, sortOrder, nameFilters)
+            return this._playersRepository.GetAll(sortField ?? string.Empty, sortOrder, nameFilters)
                 .ToAsync()
                 .Match(x => (IActionResult)this.Ok(x), left => this.StatusCode(500, left));
         }

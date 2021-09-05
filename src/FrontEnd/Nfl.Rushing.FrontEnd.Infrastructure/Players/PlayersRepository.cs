@@ -8,11 +8,11 @@ using LanguageExt;
 
 using Newtonsoft.Json;
 
-namespace Nfl.Rushing.FrontEnd.Infrastructure
+namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
-    public class RushingPlayersRepository : IRushingPlayersRepository
+    public class PlayersRepository : IPlayersRepository
     {
-        public Task<Either<string, IEnumerable<RushingPlayerDto>>> GetAll(
+        public Task<Either<string, IEnumerable<PlayerDto>>> GetAll(
             string sortField,
             SortOrder sortOrder,
             IEnumerable<string> nameFilters)
@@ -26,14 +26,14 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
                                 "https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json");
 
                             var responseContent = await response.Content.ReadAsStringAsync();
-                            var rushingPlayers = JsonConvert.DeserializeObject<IEnumerable<RushingPlayerDto>>(
+                            var rushingPlayers = JsonConvert.DeserializeObject<IEnumerable<PlayerDto>>(
                                 responseContent,
-                                new RushingPlayerJsonConverter());
+                                new PlayerJsonConverter());
                             return rushingPlayers;
                         }
                     })
                 .ToEither(error => error.ToString())
-                .Map(rushingPlayers => RushingPlayerFilter.FilterByName(rushingPlayers, nameFilters))
+                .Map(rushingPlayers => PlayerFilter.FilterByName(rushingPlayers, nameFilters))
                 .Map(rushingPlayers => RushingPlayerSorter.Sort(rushingPlayers, sortField, sortOrder))
                 .ToEither();
         }

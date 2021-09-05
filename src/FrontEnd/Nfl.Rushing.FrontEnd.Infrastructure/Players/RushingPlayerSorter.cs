@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nfl.Rushing.FrontEnd.Infrastructure
+namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
     public static class RushingPlayerSorter
     {
-        private static readonly Dictionary<string, Func<RushingPlayerDto, object>> PredicateDictionary =
-            typeof(RushingPlayerDto).GetProperties()
+        private static readonly Dictionary<string, Func<PlayerDto, object>> PredicateDictionary =
+            typeof(PlayerDto).GetProperties()
                 .Select(x => x.Name)
                 .ToDictionary(x => x, GetRushingPlayerDtoPropertyValue, StringComparer.InvariantCultureIgnoreCase);
 
-        public static IEnumerable<RushingPlayerDto> Sort(
-            IEnumerable<RushingPlayerDto> players,
+        public static IEnumerable<PlayerDto> Sort(
+            IEnumerable<PlayerDto> players,
             string sortField,
             SortOrder sortOrder)
         {
@@ -26,9 +26,9 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure
             return players;
         }
 
-        private static Func<RushingPlayerDto, object> GetRushingPlayerDtoPropertyValue(string propertyName)
+        private static Func<PlayerDto, object> GetRushingPlayerDtoPropertyValue(string propertyName)
         {
-            return x => typeof(RushingPlayerDto).GetProperty(propertyName)?.GetValue(x);
+            return x => typeof(PlayerDto).GetProperty(propertyName)?.GetValue(x);
         }
     }
 }

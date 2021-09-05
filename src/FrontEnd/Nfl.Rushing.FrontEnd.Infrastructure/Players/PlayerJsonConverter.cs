@@ -7,26 +7,26 @@ using LanguageExt;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Nfl.Rushing.FrontEnd.Infrastructure
+namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
-    public class RushingPlayerJsonConverter : JsonConverter<RushingPlayerDto>
+    public class PlayerJsonConverter : JsonConverter<PlayerDto>
     {
         public override bool CanWrite => false;
 
-        public override void WriteJson(JsonWriter writer, RushingPlayerDto value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, PlayerDto value, JsonSerializer serializer)
         {
             throw new NotImplementedException("This serializer does not support writing.");
         }
 
-        public override RushingPlayerDto ReadJson(
+        public override PlayerDto ReadJson(
             JsonReader reader,
             Type objectType,
-            RushingPlayerDto existingValue,
+            PlayerDto existingValue,
             bool hasExistingValue,
             JsonSerializer serializer)
         {
             var token = JToken.Load(reader);
-            var playerDto = existingValue ?? new RushingPlayerDto();
+            var playerDto = existingValue ?? new PlayerDto();
 
             playerDto.Name = token.Value<string>("Player");
             playerDto.Team = token.Value<string>("Team");
