@@ -31,6 +31,8 @@ namespace Nfl.Rushing.FrontEnd.WebApi
             services.AddRazorPages();
             services.AddRouting();
 
+            services.AddSwaggerGen();
+
             services.AddTransient<IRushingPlayersRepository>(_ => new RushingPlayersRepository());
         }
 
@@ -57,6 +59,10 @@ namespace Nfl.Rushing.FrontEnd.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI();
 
             app.UseEndpoints(
                 endpoints =>
