@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nfl.Rushing.FrontEnd.Infrastructure\Nfl.Rushing.FrontEnd.Infrastructure\Nfl.Rushing.FrontEnd.Infrastructure.csproj" />
+    <ProjectReference Include="..\Nfl.Rushing.FrontEnd.Infrastructure\Nfl.Rushing.FrontEnd.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
