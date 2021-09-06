@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Nfl.Rushing.FrontEnd.Infrastructure.Export;
 using Nfl.Rushing.FrontEnd.Infrastructure.Players;
 
 namespace Nfl.Rushing.FrontEnd.WebApi
@@ -34,6 +35,15 @@ namespace Nfl.Rushing.FrontEnd.WebApi
             services.AddSwaggerGen();
 
             services.AddTransient<IPlayersRepository>(_ => new PlayersRepository());
+            services.AddTransient<IExportService>(_ => new CsvExportService());
+            services.AddTransient<IPlayersExportService>(p =>
+            {
+                var exportService = p.GetRequiredService<IExportService>();
+                var playersRepository = p.GetRequiredService<IPlayersRepository>();
+                return new PlayersExportService(
+                        exportService,
+                        playersRepository);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
