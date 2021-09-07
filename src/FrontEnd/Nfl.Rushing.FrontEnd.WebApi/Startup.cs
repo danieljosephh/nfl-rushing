@@ -29,21 +29,22 @@ namespace Nfl.Rushing.FrontEnd.WebApi
             services.AddMvc(options => { options.UseGeneralRoutePrefix("api"); })
                 .AddControllersAsServices()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddRazorPages();
             services.AddRouting();
+
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "Spa"; });
+            services.AddCors();
 
             services.AddSwaggerGen();
 
             services.AddTransient<IPlayersRepository>(_ => new PlayersRepository());
             services.AddTransient<IExportService>(_ => new CsvExportService());
-            services.AddTransient<IPlayersExportService>(p =>
-            {
-                var exportService = p.GetRequiredService<IExportService>();
-                var playersRepository = p.GetRequiredService<IPlayersRepository>();
-                return new PlayersExportService(
-                        exportService,
-                        playersRepository);
-            });
+            services.AddTransient<IPlayersExportService>(
+                p =>
+                {
+                    var exportService = p.GetRequiredService<IExportService>();
+                    var playersRepository = p.GetRequiredService<IPlayersRepository>();
+                    return new PlayersExportService(exportService, playersRepository);
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +52,12 @@ namespace Nfl.Rushing.FrontEnd.WebApi
         {
             if (env.IsDevelopment())
             {
+                // Configure CORS to allow the spa to communicate with the api while developing locally using react
+                app.UseCors(
+                    builder => builder.WithOrigins("http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -61,8 +68,6 @@ namespace Nfl.Rushing.FrontEnd.WebApi
                 app.UseHsts();
             }
 
-            //app.UsePathBase(new PathString("/admin-core"));
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -71,15 +76,12 @@ namespace Nfl.Rushing.FrontEnd.WebApi
             app.UseAuthorization();
 
             app.UseSwagger();
-
             app.UseSwaggerUI();
 
-            app.UseEndpoints(
-                endpoints =>
-                {
-                    endpoints.MapRazorPages();
-                    endpoints.MapControllers();
-                });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            app.UseSpaStaticFiles();
+            app.UseSpa(spa => { spa.Options.SourcePath = "Spa"; });
         }
     }
 }

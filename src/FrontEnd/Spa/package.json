@@ -15,6 +15,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "xcopy /Y /I /C /E /R /V /S build ..\\Nfl.Rushing.FrontEnd.WebApi\\Spa\\ > nul",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

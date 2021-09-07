@@ -350,9 +350,7 @@ yarn-error.log*
 src/**/*.css
 /obj
 test-report.html
-/src/FrontEnd/Montrium.Connect.FrontEnd.WebApi/Montrium.Connect.FrontEnd.WebApi.xml
-/src/Admin/Montrium.Connect.Admin.Web/Spa/**/*
-/src/FrontEnd/Montrium.Connect.FrontEnd.WebApi/Spa/**/*
+/src/FrontEnd/Nfl.Rushing.FrontEnd.WebApi/Spa/**/*
 # testing
 coverage/
 test-reports/
