@@ -21,14 +21,9 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Export
             this._playersRepository = playersRepository;
         }
 
-        public Task<Either<string, Unit>> Export(
-            string sortField,
-            SortOrder sortOrder,
-            IEnumerable<string> nameFilters,
-            Stream stream)
+        public Task<Either<string, Unit>> Export(PlayersQuery query, Stream stream)
         {
-            return this._playersRepository.GetAll(sortField, sortOrder, nameFilters)
-                .MapAsync(x => this._exportService.Export(x, stream).ToUnit());
+            return this._playersRepository.GetAll(query).MapAsync(x => this._exportService.Export(x, stream).ToUnit());
         }
     }
 }

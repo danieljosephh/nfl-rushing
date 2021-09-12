@@ -13,9 +13,7 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Export
     public interface IPlayersExportService
     {
         Task<Either<string, Unit>> Export(
-            string sortField,
-            SortOrder sortOrder,
-            IEnumerable<string> nameFilters,
+            PlayersQuery query,
             Stream stream);
     }
 }

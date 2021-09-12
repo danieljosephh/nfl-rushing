@@ -36,15 +36,11 @@ namespace Nfl.Rushing.FrontEnd.WebApi
 
             services.AddSwaggerGen();
 
-            services.AddTransient<IPlayersRepository>(_ => new PlayersRepository());
-            services.AddTransient<IExportService>(_ => new CsvExportService());
-            services.AddTransient<IPlayersExportService>(
-                p =>
-                {
-                    var exportService = p.GetRequiredService<IExportService>();
-                    var playersRepository = p.GetRequiredService<IPlayersRepository>();
-                    return new PlayersExportService(exportService, playersRepository);
-                });
+            services.AddHttpClient();
+
+            services.AddScoped<IPlayersRepository, PlayersRepository>();
+            services.AddScoped<IExportService, CsvExportService>();
+            services.AddScoped<IPlayersExportService, PlayersExportService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

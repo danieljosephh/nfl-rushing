@@ -9,9 +9,10 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
     public interface IPlayersRepository
     {
-        Task<Either<string, IEnumerable<PlayerDto>>> GetAll(
-            string sortField,
-            SortOrder sortOrder,
-            IEnumerable<string> nameFilters);
+        Task<Either<string, IEnumerable<PlayerDto>>> GetAll(PlayersQuery query);
+
+        Task<Either<string, PlayerPageDto>> GetPage(PlayersQuery query);
+
+        Task<Either<string, PlayerPageDto>> GetNextPage(string continuationToken);
     }
 }

@@ -18,11 +18,13 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Export
             return Prelude.Try(
                     () =>
                     {
-                        using (var writer = new StreamWriter(outputStream, leaveOpen: true))
-                        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                        using (var streamWriter = new StreamWriter(outputStream, leaveOpen: true))
+                        using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
                         {
-                            csv.WriteRecords(data);
+                            csvWriter.WriteRecords(data);
                         }
+
+                        outputStream.Position = 0;
 
                         return Unit.Default;
                     })
