@@ -24,7 +24,7 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Export
                             csvWriter.WriteRecords(data);
                         }
 
-                        outputStream.Position = 0;
+                        outputStream.Seek(0, SeekOrigin.Begin);
 
                         return Unit.Default;
                     })

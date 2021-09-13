@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nfl.Rushing.FrontEnd.WebApi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nfl.Rushing.FrontEnd.Infrastructure", "FrontEnd\Nfl.Rushing.FrontEnd.Infrastructure\Nfl.Rushing.FrontEnd.Infrastructure.csproj", "{C0A8C1A4-29F7-4940-BDC0-9C28586C6F05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nfl.Rushing.FrontEnd.Tests.Unit", "FrontEnd\Nfl.Rushing.FrontEnd.Tests.Unit\Nfl.Rushing.FrontEnd.Tests.Unit.csproj", "{853C59BD-F09A-4C77-9589-92A7367600D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,6 +25,9 @@ Global
 		{C0A8C1A4-29F7-4940-BDC0-9C28586C6F05}.Debug|x64.Build.0 = Debug|x64
 		{C0A8C1A4-29F7-4940-BDC0-9C28586C6F05}.Release|x64.ActiveCfg = Release|x64
 		{C0A8C1A4-29F7-4940-BDC0-9C28586C6F05}.Release|x64.Build.0 = Release|x64
+		{853C59BD-F09A-4C77-9589-92A7367600D3}.Debug|x64.ActiveCfg = Debug|x64
+		{853C59BD-F09A-4C77-9589-92A7367600D3}.Debug|x64.Build.0 = Debug|x64
+		{853C59BD-F09A-4C77-9589-92A7367600D3}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +35,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AF131246-B18F-4DFB-B5DF-B9AE9A6C3722} = {BFC68F9F-81CF-4FDE-9A5A-3859AF35EAE6}
 		{C0A8C1A4-29F7-4940-BDC0-9C28586C6F05} = {BFC68F9F-81CF-4FDE-9A5A-3859AF35EAE6}
+		{853C59BD-F09A-4C77-9589-92A7367600D3} = {BFC68F9F-81CF-4FDE-9A5A-3859AF35EAE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FECF45C2-6501-455A-9D33-BD158908EAA0}
