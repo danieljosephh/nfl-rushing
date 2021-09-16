@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using LanguageExt;
+
 namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
     public static class RushingPlayerSorter
@@ -13,17 +15,23 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 
         public static IEnumerable<PlayerDto> Sort(
             IEnumerable<PlayerDto> players,
-            string sortField,
+            Option<string> sortFieldOption,
             SortOrder sortOrder)
         {
-            if (PredicateDictionary.ContainsKey(sortField))
-            {
-                return sortOrder == SortOrder.Ascending
-                    ? players.OrderBy(PredicateDictionary[sortField])
-                    : players.OrderByDescending(PredicateDictionary[sortField]);
-            }
+            return sortFieldOption.Match(
+                sortField =>
+                {
+                    if (PredicateDictionary.ContainsKey(sortField))
+                    {
+                        return sortOrder == SortOrder.Ascending
+                            ? players.OrderBy(PredicateDictionary[sortField])
+                            : players.OrderByDescending(PredicateDictionary[sortField]);
+                    }
 
-            return players;
+                    return players;
+                },
+                () => players);
+
         }
 
         private static Func<PlayerDto, object> GetRushingPlayerDtoPropertyValue(string propertyName)
