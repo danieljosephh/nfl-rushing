@@ -25,10 +25,10 @@ namespace Nfl.Rushing.FrontEnd.Tests.Unit.Infrastructure.Export
         [Theory]
         [AutoFakeItEasyData]
         public async Task GivenAListOfItems_WhenExport_ThenItemsAreExportedToStream(
-            IEnumerable<PlayerDto> players)
+            PlayerDto[] players)
         {
             // Given
-            using var memoryStream = new MemoryStream();
+            await using var memoryStream = new MemoryStream();
 
             // When
             var result = await this._sut.Export(players, memoryStream);

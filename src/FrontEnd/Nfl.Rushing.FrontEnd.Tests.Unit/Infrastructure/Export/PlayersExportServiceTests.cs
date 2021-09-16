@@ -37,7 +37,7 @@ namespace Nfl.Rushing.FrontEnd.Tests.Unit.Infrastructure.Export
                 IEnumerable<PlayerDto> players)
         {
             // Given
-            using var stream = new MemoryStream();
+            await using var stream = new MemoryStream();
             var playersRepoCall = A.CallTo(() => this._playersRepository.GetAll(query));
             playersRepoCall.Returns(Prelude.Right<string, IEnumerable<PlayerDto>>(players));
             var exportServiceCall = A.CallTo(() => this._exportService.Export(players, stream));
@@ -60,7 +60,7 @@ namespace Nfl.Rushing.FrontEnd.Tests.Unit.Infrastructure.Export
                 string errorMessage)
         {
             // Given
-            using var stream = new MemoryStream();
+            await using var stream = new MemoryStream();
             A.CallTo(() => this._playersRepository.GetAll(query)).Returns(errorMessage);
 
             // When
@@ -80,7 +80,7 @@ namespace Nfl.Rushing.FrontEnd.Tests.Unit.Infrastructure.Export
                 string errorMessage)
         {
             // Given
-            using var stream = new MemoryStream();
+            await using var stream = new MemoryStream();
             var playersRepoCall = A.CallTo(() => this._playersRepository.GetAll(query));
             playersRepoCall.Returns(Prelude.Right<string, IEnumerable<PlayerDto>>(players));
             A.CallTo(() => this._exportService.Export(players, stream)).Returns(errorMessage);
