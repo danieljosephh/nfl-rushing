@@ -6,7 +6,7 @@ using LanguageExt;
 
 namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
-    public static class RushingPlayerSorter
+    public static class PlayersSorter
     {
         private static readonly Dictionary<string, Func<PlayerDto, object>> PredicateDictionary =
             typeof(PlayerDto).GetProperties()

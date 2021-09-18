@@ -25,26 +25,26 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
         {
             return Prelude.TryAsync(this.GetPlayersAndMapToDto)
                 .ToEither(error => error.ToString())
-                .Map(rushingPlayers => PlayerFilter.FilterByName(rushingPlayers, query.NameFilters))
-                .Map(rushingPlayers => RushingPlayerSorter.Sort(rushingPlayers, query.SortField, query.SortOrder))
+                .Map(rushingPlayers => PlayersFilter.FilterByName(rushingPlayers, Prelude.Optional(query.NameFilters)))
+                .Map(rushingPlayers => PlayersSorter.Sort(rushingPlayers, query.SortField, query.SortOrder))
                 .ToEither();
         }
 
-        public Task<Either<string, PlayerPageDto>> GetPage(PlayersQuery query)
+        public Task<Either<string, PlayersPageDto>> GetPage(PlayersQuery query)
         {
             return this.GetAll(query).ToAsync().Map(x => Paginate(x.ToArray(), query)).ToEither();
         }
 
-        public Task<Either<string, PlayerPageDto>> GetNextPage(string continuationToken)
+        public Task<Either<string, PlayersPageDto>> GetNextPage(string continuationToken)
         {
             return Base64ConversionHelper.ConvertFromBase64String<ContinuationToken<PlayersQuery>>(continuationToken)
                 .Apply(token => this.GetPage(token.Query));
         }
 
-        private static PlayerPageDto Paginate(IReadOnlyCollection<PlayerDto> players, PlayersQuery query)
+        private static PlayersPageDto Paginate(IReadOnlyCollection<PlayerDto> players, PlayersQuery query)
         {
             var hasMoreResults = players.Count - query.StartIndex > query.PageSize;
-            return new PlayerPageDto
+            return new PlayersPageDto
             {
                 HasMoreResults = hasMoreResults,
                 Players = players.Skip(query.StartIndex).Take(query.PageSize),
@@ -61,17 +61,14 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 
         private async Task<IEnumerable<PlayerDto>> GetPlayersAndMapToDto()
         {
-            using (var httpClient = this._httpClientFactory.CreateClient())
-            {
-                var response = await httpClient.GetAsync(
-                    "https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json");
-
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var rushingPlayers = JsonConvert.DeserializeObject<IEnumerable<PlayerDto>>(
-                    responseContent,
-                    new PlayerJsonConverter());
-                return rushingPlayers;
-            }
+            using var httpClient = this._httpClientFactory.CreateClient();
+            return await httpClient
+                .GetAsync("https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json")
+                .MapAsync(response => response.Content.ReadAsStringAsync())
+                .Map(
+                    responseContent => JsonConvert.DeserializeObject<IEnumerable<PlayerDto>>(
+                        responseContent,
+                        new PlayerJsonConverter()));
         }
     }
 }

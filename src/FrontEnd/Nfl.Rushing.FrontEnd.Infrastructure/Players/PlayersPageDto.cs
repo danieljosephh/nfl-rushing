@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
-    public class PlayerPageDto
+    public class PlayersPageDto
     {
         public bool HasMoreResults { get; set; }
 

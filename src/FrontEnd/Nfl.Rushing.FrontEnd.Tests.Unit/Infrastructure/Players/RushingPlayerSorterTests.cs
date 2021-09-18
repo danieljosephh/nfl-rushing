@@ -35,7 +35,7 @@ namespace Nfl.Rushing.FrontEnd.Tests.Unit.Infrastructure.Players
         {
             // Given
             // When
-            var result = RushingPlayerSorter.Sort(players, sortField, SortOrder.Ascending);
+            var result = PlayersSorter.Sort(players, sortField, SortOrder.Ascending);
 
             // Then
             var expected = players.OrderBy(GetRushingPlayerDtoPropertyValue(sortField));
@@ -50,7 +50,7 @@ namespace Nfl.Rushing.FrontEnd.Tests.Unit.Infrastructure.Players
         {
             // Given
             // When
-            var result = RushingPlayerSorter.Sort(players, sortField, SortOrder.Descending);
+            var result = PlayersSorter.Sort(players, sortField, SortOrder.Descending);
 
             // Then
             var expected = players.OrderByDescending(GetRushingPlayerDtoPropertyValue(sortField));
@@ -66,7 +66,7 @@ namespace Nfl.Rushing.FrontEnd.Tests.Unit.Infrastructure.Players
         {
             // Given
             // When
-            var result = RushingPlayerSorter.Sort(players, sortField, sortOrder);
+            var result = PlayersSorter.Sort(players, sortField, sortOrder);
 
             // Then
             result.Should().BeEquivalentTo(players, options => options.WithStrictOrdering());

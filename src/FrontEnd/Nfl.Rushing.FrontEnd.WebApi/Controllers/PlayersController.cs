@@ -27,11 +27,10 @@ namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(PlayerPageDto), 200)]
+        [ProducesResponseType(typeof(PlayersPageDto), 200)]
         public Task<IActionResult> Get(
             [FromQuery] PlayersQuery query,
-            [FromQuery] string continuationToken = null,
-            [FromQuery] bool forceRefresh = false)
+            [FromQuery] string continuationToken = null)
         {
             return continuationToken == null
                 ? this.MapToResponse(() => this._playersRepository.GetPage(query))
@@ -50,7 +49,7 @@ namespace Nfl.Rushing.FrontEnd.WebApi.Controllers
                     left => this.StatusCode(500, left));
         }
 
-        private Task<IActionResult> MapToResponse(Func<Task<Either<string, PlayerPageDto>>> repositoryCall)
+        private Task<IActionResult> MapToResponse(Func<Task<Either<string, PlayersPageDto>>> repositoryCall)
         {
             return repositoryCall()
                 .ToAsync()

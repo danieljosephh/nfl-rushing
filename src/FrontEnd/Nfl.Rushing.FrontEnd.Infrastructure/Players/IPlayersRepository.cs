@@ -11,8 +11,8 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
     {
         Task<Either<string, IEnumerable<PlayerDto>>> GetAll(PlayersQuery query);
 
-        Task<Either<string, PlayerPageDto>> GetPage(PlayersQuery query);
+        Task<Either<string, PlayersPageDto>> GetPage(PlayersQuery query);
 
-        Task<Either<string, PlayerPageDto>> GetNextPage(string continuationToken);
+        Task<Either<string, PlayersPageDto>> GetNextPage(string continuationToken);
     }
 }
