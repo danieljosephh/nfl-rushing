@@ -15,7 +15,7 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
         public SortOrder SortOrder { get; set; }
 
         [DataMember]
-        public IEnumerable<string> NameFilters { get; set; } = Enumerable.Empty<string>();
+        public IEnumerable<string> NameFilters { get; set; }
 
         [DataMember]
         public int StartIndex { get; set; }

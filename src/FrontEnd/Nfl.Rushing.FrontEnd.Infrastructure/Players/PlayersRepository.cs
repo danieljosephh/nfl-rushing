@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using LanguageExt;
@@ -14,6 +15,10 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
 {
     public class PlayersRepository : IPlayersRepository
     {
+        private static readonly HttpRequestMessage GetStatsRequest = new(
+            HttpMethod.Get,
+            "https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json");
+
         private readonly IHttpClientFactory _httpClientFactory;
 
         public PlayersRepository(IHttpClientFactory httpClientFactory)
@@ -44,7 +49,7 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
         private static PlayersPageDto Paginate(IReadOnlyCollection<PlayerDto> players, PlayersQuery query)
         {
             var hasMoreResults = players.Count - query.StartIndex > query.PageSize;
-            return new PlayersPageDto
+            return new ()
             {
                 HasMoreResults = hasMoreResults,
                 Players = players.Skip(query.StartIndex).Take(query.PageSize),
@@ -62,8 +67,9 @@ namespace Nfl.Rushing.FrontEnd.Infrastructure.Players
         private async Task<IEnumerable<PlayerDto>> GetPlayersAndMapToDto()
         {
             using var httpClient = this._httpClientFactory.CreateClient();
-            return await httpClient
-                .GetAsync("https://raw.githubusercontent.com/tsicareers/nfl-rushing/master/rushing.json")
+
+            return await httpClient.SendAsync(GetStatsRequest, CancellationToken.None)
+                .Map(response => response.EnsureSuccessStatusCode())
                 .MapAsync(response => response.Content.ReadAsStringAsync())
                 .Map(
                     responseContent => JsonConvert.DeserializeObject<IEnumerable<PlayerDto>>(
