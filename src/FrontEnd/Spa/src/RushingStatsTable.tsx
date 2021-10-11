@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-//import ReactDOM from 'react-dom';
 import SampleData from './sampleData.json';
 import TableFilter from 'react-table-filter';
 import { } from './example.scss';
 import { } from './styles.css';
+import { api } from './_common/_api/api.helpers';
+import { Player } from './Player.mdl';
+import { map } from 'lodash'
 
 export class RushingStatsTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       'episodes': SampleData._embedded.episodes,
+      'players': api.get<Player[]>('Players')
     };
     this._filterUpdated = this._filterUpdated.bind(this);
   }
@@ -17,23 +20,25 @@ export class RushingStatsTable extends Component {
   _filterUpdated(newData, filtersObject) {
     this.setState({
       'episodes': newData,
+      'players': api.get<Player[]>('Players')
     });
   }
 
   render() {
     const episodes = this.state.episodes;
+    const players = this.state.players;
 
-    const elementsHtml = episodes.map((item, index) => {
+    const elementsHtml = map(players, (item, index) => {
       return (
         <tr key={'row_' + index}>
           <td className="cell">
             {item.name}
           </td>
           <td className="cell">
-            {item.season}
+            {item.team}
           </td>
           <td className="cell">
-            {item.number}
+            {item.position}
           </td>
         </tr>
       );
@@ -69,6 +74,7 @@ export class RushingStatsTable extends Component {
                 {elementsHtml}
               </tbody>
             </table>
+            {/* {this.someFunc().map} */}
           </div>
 
         </div>

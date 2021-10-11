@@ -65,11 +65,10 @@ export function mapToApiError(axiosError: AxiosError): ApiError {
 
 async function call<T>(
   apiPath: string,
-  requestConfig = {},
-  version = 1
+  requestConfig = {}
 ): Promise<T> {
   const request = {
-    url: `${BASE_API_URL}v${version}.0/${apiPath}`,
+    url: `${BASE_API_URL}${apiPath}`,
     ...DEFAULT_HTTP_REQUEST_CONFIG,
     ...requestConfig
   }
@@ -86,9 +85,8 @@ function createRequest(httpVerb: Method) {
   return async function httpRequest<T>(
     apiPath: string,
     requestConfig?: AxiosRequestConfig,
-    version?: number
   ): Promise<T> {
-    return call(apiPath, { ...requestConfig, method: httpVerb }, version)
+    return call(apiPath, { ...requestConfig, method: httpVerb })
   }
 }
 
